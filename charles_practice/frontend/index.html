@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Charles Trainer</title>
+    <script>
+        // 💡 При запуске в контейнере меняй это значение на нужный адрес
+        window.BACKEND_URL = "http://host.docker.internal:8000";
+    </script>
+</head>
+<body>
+    <button id="rewriteBtn">Для Rewrite</button>
+    <button id="mapLocalBtn">Для Map Local</button>
+
+    <script>
+        const backendBaseUrl = window.BACKEND_URL;
+
+        document.getElementById("rewriteBtn").addEventListener("click", () => {
+            const rewriteBody = {
+                user: {
+                    name: "student",
+                    role: "viewer",
+                    settings: {
+                        notifications: false,
+                        theme: "light"
+                    }
+                }
+            };
+
+            fetch(`${backendBaseUrl}/api/user/data`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(rewriteBody)
+            });
+        });
+
+        document.getElementById("mapLocalBtn").addEventListener("click", () => {
+            const mapLocalBody = {
+                payload: "original"
+            };
+
+            fetch(`${backendBaseUrl}/api/calculate`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(mapLocalBody)
+            });
+        });
+    </script>
+</body>
+</html>
